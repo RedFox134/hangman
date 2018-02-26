@@ -17,7 +17,21 @@ public class Hangman {
     public static void main(String[] args) 
     {
         //Load Game
+        String noose[][] = { 
+            {"-","-","-","-","|"," ","\n"} ,
+            {"|"," "," ","\\","O","/","\n"} ,
+            {"|"," "," "," ","|"," ","\n"} ,
+            {"|"," "," ","/"," ","\\","\n"} ,
+            {"|"," "," "," "," "," ","\n"} ,
+            {"="," "," "," "," "," ","\n"} ,
+            {"","","","","","",""}//Makes the array length long enough to print out the new line
+        };
         //Display noose
+        for( int i = 0; i < noose.length; i++ )
+            for( int j = 0; j < noose.length; j++ )
+            {
+                System.out.print(noose[i][j]);
+            }
         //pick random word
         //diaply blank spaces "_" for each letter
         //take user input, input can be single character or word
