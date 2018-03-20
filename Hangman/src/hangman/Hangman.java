@@ -16,8 +16,11 @@ public class Hangman {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
+     * @throws java.lang.InterruptedException
      */
-    public static void main(String[] args) throws IOException, InterruptedException 
+    public static void main(String[] args) throws IOException, 
+            InterruptedException 
     {
         //Load Game
         String noose[][] = { 
@@ -62,7 +65,7 @@ public class Hangman {
         
         boolean letter = false;
         boolean word = false;
-        while( startGame )
+        while( hiddenWord.contains("_") )
         {
             //take user input, input can be single character or word
             System.out.println("Please enter a letter or the word you would "
@@ -83,16 +86,18 @@ public class Hangman {
             if ( letter )
                 for ( int i = 0; i < wordToGuess.length(); i++ )
                 {
-                    System.out.println("i: "+i);
-                    System.out.println("wordToGuess: "+wordToGuess.charAt(i));
-                    System.out.println("input: "+input.charAt(0));
-                    System.out.println("hiddenWord: "+hiddenWord);
                     if ( wordToGuess.charAt( i ) == input.charAt( 0 ) )
                     {
-                        hiddenWord = hiddenWord.replace(hiddenWord.charAt( i ), input.charAt( 0 ) );
+                        //if it does match replace _ with the letter
+                        hiddenWord = hiddenWord.substring(0, i) + input 
+                                + hiddenWord.substring(i+1, hiddenWord.length());
                     }
                 }
+            else if ( word )
+                if ( wordToGuess.compareToIgnoreCase( input ) == 0 )
+                    hiddenWord = input;
             System.out.println( hiddenWord );
+            System.out.println("Congratulations!  You Win!");
             //each time noose is updated clear screen and draw new noose
             //if it does replace "_" with letter
             //if it doesn't add body part to noose
