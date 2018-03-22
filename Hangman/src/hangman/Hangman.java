@@ -65,7 +65,7 @@ public class Hangman {
         
         boolean letter = false;
         boolean word = false;
-        while( hiddenWord.contains("_") )
+        while( hiddenWord.contains("_") && startGame )
         {
             //take user input, input can be single character or word
             System.out.println("Please enter a letter or the word you would "
@@ -83,6 +83,8 @@ public class Hangman {
                 word = false;
             }
             //if letter check if it matches any
+            boolean incorrectGuess = false;
+            int incorrectGuessCounter = 0;
             if ( letter )
                 for ( int i = 0; i < wordToGuess.length(); i++ )
                 {
@@ -91,13 +93,28 @@ public class Hangman {
                         //if it does match replace _ with the letter
                         hiddenWord = hiddenWord.substring(0, i) + input 
                                 + hiddenWord.substring(i+1, hiddenWord.length());
+                        incorrectGuess = false;
+                    } else
+                    {
+                        incorrectGuess = true;
+                        incorrectGuessCounter++;
                     }
                 }
             else if ( word )
                 if ( wordToGuess.compareToIgnoreCase( input ) == 0 )
+                {
                     hiddenWord = input;
+                    incorrectGuess = false;
+                } else
+                {
+                    incorrectGuess = true;
+                    incorrectGuessCounter++;
+                }
+            if ( incorrectGuess )
+                if ( incorrectGuessCounter == 1 )
+                    
+                
             System.out.println( hiddenWord );
-            System.out.println("Congratulations!  You Win!");
             //each time noose is updated clear screen and draw new noose
             //if it does replace "_" with letter
             //if it doesn't add body part to noose
@@ -108,9 +125,14 @@ public class Hangman {
             //if hung display word and game over
             //if not prompt for new input
         }
-        //clears screen in a command propmt window
-        //does not appear to work int the netbeans console though >:(
-        //this only works on windows and chould probably be put in a try catch
+        if ( hiddenWord.contains( "_" ) )
+        {
+            
+        } else
+            System.out.println("Congratulations!  You Win!");
+        //clears screen in a command prompt window
+        //does not appear to work in the netbeans console though >:(
+        //this only works on windows and should probably be put in a try catch
         //Source: https://stackoverflow.com/questions/2979383/java-clear-the-console
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
