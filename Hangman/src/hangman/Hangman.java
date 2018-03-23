@@ -23,22 +23,11 @@ public class Hangman {
             InterruptedException 
     {
         //Load Game
-        String noose[][] = { 
-            {"-","-","-","-","|"," ","\n"} ,
-            {"|"," "," "," "," "," ","\n"} ,
-            {"|"," "," "," "," "," ","\n"} ,
-            {"|"," "," "," "," "," ","\n"} ,
-            {"|"," "," "," "," "," ","\n"} ,
-            {"="," "," ","","","",""} ,
-            {"","","","","","",""}//Makes the array length long enough to print out the new line character
-        };
-        boolean hung = false;
+        Noose noose = new Noose();
         //Display Title
         System.out.println("Hang Man v0.0.1");
         //Display noose
-        for( int i = 0; i < noose.length; i++ )
-            for( int j = 0; j < noose.length; j++ )
-                System.out.print(noose[i][j]);
+        noose.printNoose();
         //pick random word
         String wordToGuess = "test";
         //Need to impletment the above to actually pull from a list of words, but for now can be a constant to get the game working
@@ -67,8 +56,7 @@ public class Hangman {
         boolean letter = false;
         boolean word = false;
         boolean incorrectGuess = false;
-        int incorrectGuessCounter = 0;
-        while( hiddenWord.contains("_") && startGame && !hung )
+        while( hiddenWord.contains("_") && startGame && !noose.isHung() )
         {
             //take user input, input can be single character or word
             System.out.println("Please enter a letter or the word you would "
@@ -92,13 +80,21 @@ public class Hangman {
                     if ( wordToGuess.charAt( i ) == input.charAt( 0 ) )
                     {
                         //if it does match replace _ with the letter
-                        hiddenWord = hiddenWord.substring(0, i) + input 
-                                + hiddenWord.substring(i+1, hiddenWord.length());
+                        int j = i;
+                        while ( j < wordToGuess.length() )
+                        {
+                            if ( wordToGuess.charAt( j ) == input.charAt( 0 ) )
+                                hiddenWord = hiddenWord.substring(0, j) + input 
+                                    + hiddenWord.substring(j+1, 
+                                            hiddenWord.length());
+                            j++;
+                        }
+                        
                         incorrectGuess = false;
                         letter = false;
                         break;
                     }
-                    //if it doesn't add body part
+                    //if it doesn't, add body part
                     else
                     {
                         incorrectGuess = true;
@@ -124,24 +120,8 @@ public class Hangman {
             //if it doesn't add body part to noose
             if ( incorrectGuess )
             {
-                incorrectGuessCounter++;
-                if ( incorrectGuessCounter == 1 )
-                    noose[1][4] = "O";
-                else if ( incorrectGuessCounter == 2 )
-                    noose[2][4] = "|";
-                else if ( incorrectGuessCounter == 3 )
-                    noose[2][3] = "\\";
-                else if ( incorrectGuessCounter == 4 )
-                    noose[2][5] = "/";
-                else if ( incorrectGuessCounter == 5 )
-                    noose[3][4] = "|";
-                else if (incorrectGuessCounter == 6 )
-                    noose[4][3] = "/";
-                else if (incorrectGuessCounter == 7 )
-                {
-                    noose[4][5] = "\\";
-                    hung = true;
-                }
+                noose.incrementIncorrectGuessCounter();
+                noose.updateNoose();
             }
             //each time noose is updated clear screen and draw new noose
             //clears screen in a command prompt window
@@ -149,44 +129,36 @@ public class Hangman {
             //this only works on windows and should probably be put in a try catch
             //Source: https://stackoverflow.com/questions/2979383/java-clear-the-console
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            for( int i = 0; i < noose.length; i++ )
-                for( int j = 0; j < noose.length; j++ )
-                    System.out.print(noose[i][j]);
+            noose.printNoose();
             System.out.println( hiddenWord );
             //if hung display word and game over
-            if ( hiddenWord.contains( "_" ) && hung )
+            if ( hiddenWord.contains( "_" ) && noose.isHung() )
             {
                 System.out.println( "You were hung!" );
-                System.out.println( "The hiddenWord was: " + wordToGuess );
+                System.out.println( "The hidden word was: " + wordToGuess );
                 System.out.println( "Better luck next time!" );
             }
             else if ( !hiddenWord.contains( "_" ) )
                 System.out.println("Congratulations!  You Win!");
             //check to restart game or not
-            if ( hung || !hiddenWord.contains( "_" ));
+            if ( noose.isHung() || !hiddenWord.contains( "_" ));
             {
-                while ( hung )
+                while ( noose.isHung() )
                 {
                     System.out.print( "Start a new game? (Y) or (N): " );
                     input = scanner.next();
                     //if not prompt for new input
                     if ( input.compareToIgnoreCase( "y" ) == 0 )
                     {
-                        hung = false;
+                        noose = new Noose();
                         startGame = true;
-                        noose = new String[][] { 
-                            {"-","-","-","-","|"," ","\n"} ,
-                            {"|"," "," "," "," "," ","\n"} ,
-                            {"|"," "," "," "," "," ","\n"} ,
-                            {"|"," "," "," "," "," ","\n"} ,
-                            {"|"," "," "," "," "," ","\n"} ,
-                            {"="," "," ","","","",""} ,
-                            {"","","","","","",""}//Makes the array length long enough to print out the new line character
-                        };
+                        hiddenWord = "";
+                        for ( int i = 0; i < wordToGuess.length(); i++ )
+                            hiddenWord += blankSpaces;
                     }
                     else if ( input.compareToIgnoreCase( "n" ) == 0 )
                     {
-                        hung = false;
+                        noose = new Noose();
                         startGame = false;
                     }
                     else
