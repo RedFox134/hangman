@@ -19,7 +19,7 @@ public class WordToGuess
      */
     public WordToGuess()
     {
-        word = "test";//Need to build of list to pull a random word from.
+        word = "test";//Need to build a database to pull a random word from.
         hiddenWord = "";
         hideWord();
     }
@@ -73,6 +73,9 @@ public class WordToGuess
             for ( int i = 0; i < word.length(); i++ )
                 if ( word.charAt( i ) == guess.charAt( 0 ) )
                 {
+                    //Add check if the letter has already been guessed once.
+                    if ( hiddenWord.charAt( i ) == guess.charAt( 0 ) )
+                        return false;
                     int j = i;
                     while ( j < word.length() )
                     {
