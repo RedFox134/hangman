@@ -44,6 +44,14 @@ public class Hangman {
             }
             else
             {
+                //clears screen in a command prompt window
+                //does not appear to work in the netbeans console though >:(
+                //this only works on windows and should probably be put in a try 
+                //catch
+                //Source: 
+                //https://stackoverflow.com/questions/2979383/java-clear-the-console
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
+                        .waitFor();
                 System.out.println("I'm sorry,  but we did not understand your"
                     + " request.  Please enter either (Y) for yes or (N) for no"
                     + "");
@@ -53,7 +61,17 @@ public class Hangman {
         while( wordToGuess.getHiddenWordToGuess().contains("_") 
                 && startGame && !noose.isHung() )
         {
+            //clears screen in a command prompt window
+            //does not appear to work in the netbeans console though >:(
+            //this only works on windows and should probably be put in a try 
+            //catch
+            //Source: 
+            //https://stackoverflow.com/questions/2979383/java-clear-the-console
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
+                    .waitFor();
             //take user input, input can be single character or word
+            noose.printNoose();
+            wordToGuess.printHiddenWordToGuess();
             System.out.print("Please enter a letter or the word you would like"
                     + " to guess: ");
             input.setInput();
@@ -114,11 +132,6 @@ public class Hangman {
                             + "Y for yes or N for no.");
             }
         }
-        //clears screen in a command prompt window
-        //does not appear to work in the netbeans console though >:(
-        //this only works on windows and should probably be put in a try catch
-        //Source: https://stackoverflow.com/questions/2979383/java-clear-the-console
-        //new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     }
     
 }
