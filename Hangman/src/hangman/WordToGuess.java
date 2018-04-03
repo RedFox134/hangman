@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package hangman;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  *
@@ -13,13 +17,20 @@ public class WordToGuess
 {
     private String word;
     private String hiddenWord;
+    private String words[];
+    private FileReader fr;
+    private BufferedReader br;
+    private String line;
+    private int arraySize;
     
     /**
      * Default constructor.
      */
-    public WordToGuess()
+    public WordToGuess() throws IOException
     {
-        word = "test";//Need to build a database to pull a random word from.
+        setWordListSize();
+        words = new String[ arraySize ];
+        word = pickWord();
         hiddenWord = "";
         hideWord();
     }
@@ -106,5 +117,48 @@ public class WordToGuess
     public void printWordToGuess()
     {
         System.out.println( word );
+    }
+    
+    /**
+     * Reads words from a file into an array.
+     * @return String
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    private String pickWord()throws FileNotFoundException, IOException
+    {
+        setWordListSize();
+        words = new String[ arraySize ];
+        fr = new FileReader( Hangman.class.getResource( "test.txt" ).getFile() );
+//"C:\\test.txt");
+        br = new BufferedReader( fr );
+        int count = 0;
+        line = br.readLine();
+        while ( line != null )
+        {
+            words[ count++ ] = line;
+            line = br.readLine();
+        }
+        return words[ ( int )( Math.random() * arraySize ) ];
+    }
+    
+    /**
+     * Runs through the list of words and counts how many there are.  Sets the 
+     * arraySize value equal to how many words were counted.
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    private void setWordListSize() throws FileNotFoundException, IOException
+    {
+        fr = new FileReader( "C:\\test.txt");
+        br = new BufferedReader( fr );
+        int count = 0;
+        line = br.readLine();
+        while ( line != null )
+        {
+            count++;
+            line = br.readLine();
+        }
+        arraySize = count;
     }
 }
