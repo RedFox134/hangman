@@ -82,16 +82,6 @@ public class Hangman {
                 noose.incrementIncorrectGuessCounter();
                 noose.updateNoose();
             }
-            /**
-             * clears screen in a command prompt window
-             * does not appear to work in the netbeans console though >:( 
-             * this only works on windows 
-             * and should probably be put in a try catch 
-             * Source: 
-             * https://stackoverflow.com/questions/2979383/java-clear-the-console
-             */
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            wordToGuess.printHiddenWordToGuess();
             if ( wordToGuess.getHiddenWordToGuess().contains( "_" ) 
                     && noose.isHung() )
                 System.out.println( "You were hung!"
@@ -99,7 +89,20 @@ public class Hangman {
                         + wordToGuess.getWordToGuess() 
                         + "\nBetter luck next time!" );
             else if ( !wordToGuess.getHiddenWordToGuess().contains( "_" ) )
+            {
+                /**
+                 * clears screen in a command prompt window
+                 * does not appear to work in the netbeans console though  
+                 * this only works on windows 
+                 * and should probably be put in a try catch 
+                 * Source: 
+                 * https://stackoverflow.com/questions/2979383/java-clear-the-console
+                */
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                noose.printNoose();
+                wordToGuess.printHiddenWordToGuess();
                 System.out.println("Congratulations!  You Win!");
+            }
             while ( noose.isHung() || 
                     !wordToGuess.getHiddenWordToGuess().contains( "_" ) )
             {
