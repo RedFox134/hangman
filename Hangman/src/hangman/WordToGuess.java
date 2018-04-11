@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -18,13 +20,15 @@ public class WordToGuess
     private String word;
     private String hiddenWord;
     private String words[];
-    private FileReader fr;
     private BufferedReader br;
     private String line;
     private int arraySize;
+    private InputStream is;
+    private InputStreamReader isr;
     
     /**
      * Default constructor.
+     * @throws java.io.IOException
      */
     public WordToGuess() throws IOException
     {
@@ -129,9 +133,11 @@ public class WordToGuess
     {
         setWordListSize();
         words = new String[ arraySize ];
-        fr = new FileReader( Hangman.class.getResource( "test.txt" ).getFile() );
-//"C:\\test.txt");
-        br = new BufferedReader( fr );
+        //source: https://alvinalexander.com/blog/post/java/read-text-file-from-jar-file
+        //need to look further into how this works
+        is = getClass().getResourceAsStream( "test.txt" );
+        isr = new InputStreamReader( is );
+        br = new BufferedReader( isr );
         int count = 0;
         line = br.readLine();
         while ( line != null )
@@ -150,8 +156,9 @@ public class WordToGuess
      */
     private void setWordListSize() throws FileNotFoundException, IOException
     {
-        fr = new FileReader( "C:\\test.txt");
-        br = new BufferedReader( fr );
+        is = getClass().getResourceAsStream( "test.txt" );
+        isr = new InputStreamReader( is );
+        br = new BufferedReader( isr );
         int count = 0;
         line = br.readLine();
         while ( line != null )
