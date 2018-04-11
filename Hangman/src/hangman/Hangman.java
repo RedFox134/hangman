@@ -18,8 +18,7 @@ public class Hangman {
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
      */
-    public static void main(String[] args) throws IOException, 
-            InterruptedException 
+    public static void main(String[] args) throws IOException, InterruptedException 
     {
         //Load Game
         Noose noose = new Noose();
