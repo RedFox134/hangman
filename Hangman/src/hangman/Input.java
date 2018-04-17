@@ -24,7 +24,7 @@ public class Input
     
     public void setInput()
     {
-        input = scanner.nextLine();
+        input = scanner.nextLine().toLowerCase();
     }
     public String getInput()
     {

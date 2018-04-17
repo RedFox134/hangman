@@ -26,6 +26,7 @@ public class Hangman {
         boolean startGame;
         startGame = false;
         Input input = new Input();
+        Guesses guesses = new Guesses();
         
        //Start Menu
         System.out.println("Hang Man v0.0.2");
@@ -71,11 +72,14 @@ public class Hangman {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
                     .waitFor();
             //take user input, input can be single character or word
+            if ( guesses.isGuesses() )
+                guesses.printGuess();
             noose.printNoose();
             wordToGuess.printHiddenWordToGuess();
             System.out.print("Please enter a letter or the word you would like"
                     + " to guess: ");
             input.setInput();
+            guesses.addGuess( input.getInput() );
             if ( !wordToGuess.checkGuess( input.getInput() ) )
             {
                 noose.incrementIncorrectGuessCounter();
@@ -98,6 +102,7 @@ public class Hangman {
                  * https://stackoverflow.com/questions/2979383/java-clear-the-console
                 */
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                guesses.printGuess();;
                 noose.printNoose();
                 wordToGuess.printHiddenWordToGuess();
                 System.out.println("Congratulations!  You Win!");
@@ -111,6 +116,7 @@ public class Hangman {
                 {
                     noose = new Noose();
                     wordToGuess = new WordToGuess();
+                    guesses = new Guesses();
                 }
                 else if ( input.getInput().compareToIgnoreCase( "n" ) == 0 )
                     break;
