@@ -18,7 +18,8 @@ public class Hangman {
      * @throws java.io.IOException
      * @throws java.lang.InterruptedException
      */
-    public static void main(String[] args) throws IOException, InterruptedException 
+    public static void main(String[] args) throws IOException, 
+            InterruptedException 
     {
         //Load Game
         Noose noose = new Noose();
@@ -87,10 +88,25 @@ public class Hangman {
             }
             if ( wordToGuess.getHiddenWordToGuess().contains( "_" ) 
                     && noose.isHung() )
+            {
+                /**
+                 * clears screen in a command prompt window
+                 * does not appear to work in the netbeans console though  
+                 * this only works on windows 
+                 * and should probably be put in a try catch 
+                 * Source: 
+                 * https://stackoverflow.com/questions/2979383/java-clear-the-console
+                */
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
+                        .waitFor();
+                guesses.printGuess();
+                noose.printNoose();
+                wordToGuess.printHiddenWordToGuess();
                 System.out.println( "You were hung!"
                         + "\nThe hidden word was: " 
                         + wordToGuess.getWordToGuess() 
                         + "\nBetter luck next time!" );
+            }
             else if ( !wordToGuess.getHiddenWordToGuess().contains( "_" ) )
             {
                 /**
@@ -101,8 +117,9 @@ public class Hangman {
                  * Source: 
                  * https://stackoverflow.com/questions/2979383/java-clear-the-console
                 */
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                guesses.printGuess();;
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
+                        .waitFor();
+                guesses.printGuess();
                 noose.printNoose();
                 wordToGuess.printHiddenWordToGuess();
                 System.out.println("Congratulations!  You Win!");
@@ -130,7 +147,8 @@ public class Hangman {
                      * Source: 
                      * https://stackoverflow.com/questions/2979383/java-clear-the-console
                      */
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
+                            .waitFor();
                     System.out.println("I'm sorry, but we did not "
                             + "recoginize that input.  Please enter either "
                             + "Y for yes or N for no.");
