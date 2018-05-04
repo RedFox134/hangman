@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hangman;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- *
  * @author E064958
  */
 public class WordToGuess 
@@ -75,7 +70,7 @@ public class WordToGuess
      */
     public boolean checkGuess( String guess )
     {
-        if ( guess.length() > 1 )
+        if ( guess.length() > 1 )//word
             if ( word.compareToIgnoreCase( guess ) == 0 )
             {
                 hiddenWord = guess;
@@ -83,7 +78,7 @@ public class WordToGuess
             }
             else
                 return false;
-        else if ( guess.length() == 1)
+        else if ( guess.length() == 1)//letter
             for ( int i = 0; i < word.length(); i++ )
                 if ( word.charAt( i ) == guess.charAt( 0 ) )
                 {
@@ -102,6 +97,10 @@ public class WordToGuess
                     }
                     return true;
                 }
+                else
+                    continue;//here purely because of scope with below else if
+        else if ( guess.isEmpty() )//empty input
+            return true;
         return false;
     }
     
