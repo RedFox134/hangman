@@ -33,7 +33,10 @@ public class Hangman {
         {
             input.setInput();
             if ( input.getInput().equalsIgnoreCase( "Y" ) )
+            {
                 startGame = true;
+                break;
+            }
             else if ( input.getInput().equalsIgnoreCase( "N" ) )
                 break;
             //clears screen in a command prompt window
@@ -127,6 +130,7 @@ public class Hangman {
                     noose = new Noose();
                     wordToGuess = new WordToGuess();
                     guesses = new Guesses();
+                    break;
                 }
                 else if ( input.getInput().compareToIgnoreCase( "n" ) == 0 )
                     break;
