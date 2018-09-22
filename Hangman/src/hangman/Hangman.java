@@ -21,9 +21,10 @@ public class Hangman {
         boolean startGame = false;
         Input input = new Input();
         Guesses guesses = new Guesses();
+        Score score = new Score();
         
        //Start Menu
-        System.out.println("Hang Man v0.0.2");
+        System.out.println("Hang Man v0.0.3");
         noose.printNoose();
         wordToGuess.printHiddenWordToGuess();
         System.out.println(" Type (Y) to start a game or (N) to exit.");
