@@ -24,7 +24,7 @@ public class Hangman {
         Score score = new Score();
         
        //Start Menu
-        System.out.println("Hang Man v0.0.3");
+        System.out.println("Hang Man v0.0.4");
         noose.printNoose();
         wordToGuess.printHiddenWordToGuess();
         System.out.println(" Type (Y) to start a game or (N) to exit.");
@@ -66,6 +66,7 @@ public class Hangman {
              */
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start()
                     .waitFor();
+            score.printScore();
             if ( !guesses.isEmpty() )
                 guesses.printGuess();
             noose.printNoose();
@@ -101,6 +102,8 @@ public class Hangman {
                         + "\nThe hidden word was: " 
                         + wordToGuess.getWordToGuess() 
                         + "\nBetter luck next time!" );
+                score.updateScore(-1);
+                score.printScore();
             }
             //winner winnner chicken dinner!
             else if ( !wordToGuess.getHiddenWordToGuess().contains( "_" ) )
@@ -119,6 +122,8 @@ public class Hangman {
                 noose.printNoose();
                 wordToGuess.printHiddenWordToGuess();
                 System.out.println("Congratulations!  You Win!");
+                score.updateScore(1);
+                System.out.println("Score: " + score.getScore());
             }
             //start new game prompt
             while ( noose.isHung() || 
@@ -149,6 +154,7 @@ public class Hangman {
                         + "input.  Please enter either Y for yes or N for no.");
             }
         }
+        System.out.println("You score was: " + score.getScore());
     }
     
 }

@@ -13,31 +13,58 @@ public class Score
 {
     int score;
     
+    /**
+     * Default Constructor
+     * Initializes score to 0.
+     */
     public Score()
     {
         score = 0;
     }
     
+    /**
+     * Increments score by 1.
+     */
     private void incrementScore()
     {
         score++;
     }
     
+    /**
+     * Decrements score be 1.
+     */
     private void decrementScore()
     {
         score--;
     }
     
+    /**
+     * Increments or decrements score by 1 based on positive or negative value
+     * given.
+     * @param num Integer
+     */
     public void updateScore(int num)
     {
         if ( num < 0 )
-            score=- num;
-        else
-            score=+ num;
+            decrementScore();
+        else if ( num > 0)
+            incrementScore();
     }
     
+    /**
+     * Returns the current score.
+     * @return Integer
+     */
     public int getScore()
     {
         return score;
+    }
+    
+    /**
+     * Prints out the score as a string.
+     */
+    public void printScore()
+    {
+        System.out.println("Score: " + score);
     }
 }
