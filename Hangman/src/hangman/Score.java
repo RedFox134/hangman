@@ -12,6 +12,7 @@ package hangman;
 public class Score 
 {
     int score;
+    int points;
     
     /**
      * Default Constructor
@@ -20,22 +21,38 @@ public class Score
     public Score()
     {
         score = 0;
+        points = 0;
     }
     
     /**
-     * Increments score by 1.
+     * Constructor accepting an integer value to represent the maximum points 
+     * that can be earned for the word in question.
+     * @param p Integer
      */
-    private void incrementScore()
+    public Score(int p)
+    {
+        score = 0;
+        points = p;
+    }
+    
+    /**
+     * Increments score by 1 and decrements available points.
+     */
+    public void incrementScore()
     {
         score++;
+        points--;
     }
     
     /**
-     * Decrements score be 1.
+     * Decrements score by 1.  If score is 0 or less then sets score to 0.
      */
-    private void decrementScore()
+    public void decrementScore()
     {
-        score--;
+        if( score <= 0 )
+            score = 0;
+        else
+            score--;
     }
     
     /**
@@ -45,10 +62,7 @@ public class Score
      */
     public void updateScore(int num)
     {
-        if ( num < 0 )
-            decrementScore();
-        else if ( num > 0)
-            incrementScore();
+        score += num;
     }
     
     /**
@@ -66,5 +80,25 @@ public class Score
     public void printScore()
     {
         System.out.println("Score: " + score);
+    }
+    
+    /**
+     * Adds the remaining possible points to the score.
+     */
+    public void winScore()
+    {
+        score += points;
+    }
+    
+    /**
+     * Subtracts the remaining points from the score.  If score would be less
+     * than 0 then sets score to 0.
+     */
+    public void loseScore()
+    {
+        if ( score <= 0 || score - points <= 0 )
+            score = 0;
+        else
+            score -= points;
     }
 }
